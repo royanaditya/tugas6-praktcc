@@ -1,8 +1,10 @@
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-// Nyambungin db ke BE
-const db = new Sequelize("hrd", "root", "", {
-  host: "35.226.28.38", // IP publik dari GCP instance
+dotenv.config();
+
+const db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+  host: process.env.DB_HOST,
   dialect: "mysql",
 });
 

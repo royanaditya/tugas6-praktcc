@@ -4,19 +4,32 @@ import db from "../config/Database.js";
 const { DataTypes } = Sequelize;
 
 const Note = db.define(
-  "note",
+  "notes",
   {
-    judul: {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    isi: {
+    content: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+    },
+    userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    },
   },
   {
-    freezeTableName: true,
+    timestamps: false,
   }
 );
 

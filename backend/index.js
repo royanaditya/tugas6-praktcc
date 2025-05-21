@@ -1,11 +1,40 @@
 import express from "express";
 import cors from "cors";
-import NoteRoute from "./routes/NoteRoute.js";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
+import { db } from "./models/index.js"; // koneksi Sequelize
+import NotesRoute from "./routes/NoteRoute.js";
+
+dotenv.config();
 
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// ✅ Konfigurasi CORS lebih lengkap
+const corsOptions = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsOptions)); // Gunakan opsi CORS
+
+// === Middleware ===
+app.use(cookieParser());
 app.use(express.json());
-app.use(NoteRoute);
+app.use(NotesRoute);
 
-app.listen(3000, () => console.log("Server connected"));
+// === Database Connection & Sync ===
+(async () => {
+  try {
+    await db.authenticate();
+    console.log("Database connected...");
+
+    await db.sync({ alter: true }); // sync schema saat development
+    console.log("Database synchronized...");
+  } catch (error) {
+    console.error("Connection error:", error);
+  }
+})();
+
+// === Start Server ===
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
