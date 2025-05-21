@@ -10,8 +10,15 @@ const NoteForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`${BASE_URL}/add-note`, { judul, isi });
-    navigate("/");
+    await axios.post(`${BASE_URL}/notes`, {
+      title: judul,
+      content: isi
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    navigate("/notes");
   };
 
   return (

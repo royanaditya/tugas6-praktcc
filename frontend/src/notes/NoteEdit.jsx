@@ -11,25 +11,35 @@ const NoteEdit = () => {
 
   useEffect(() => {
     const fetchNote = async () => {
-      const response = await axios.get(`${BASE_URL}/notes`);
-      const note = response.data.find((n) => n.id === parseInt(id));
-      if (note) {
-        setJudul(note.judul);
-        setIsi(note.isi);
-      }
+      const response = await axios.get(`${BASE_URL}/notes/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      const note = response.data;
+      setJudul(note.title);
+      setIsi(note.content);
     };
     fetchNote();
   }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.put(`${BASE_URL}/edit-note/${id}`, { judul, isi });
-    navigate("/");
+    await axios.put(`${BASE_URL}/notes/${id}`, {
+      title: judul,
+      content: isi,
+    }, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    navigate("/notes");
   };
 
   return (
     <div className="container mt-5">
-      <h1 className="title">Edit Catatan</h1>
+      <h1 className="title has-text-warning has-text-centered">✏️ Edit Catatan</h1>
+
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label className="label">Judul</label>
