@@ -23,7 +23,7 @@ const NoteForm = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="title">Tambah Catatan</h1>
+      <h1 style={{ textAlign: "center", color: "#f39c12" }}>➕Tambah Catatan</h1>
       <form onSubmit={handleSubmit}>
         <div className="field">
           <label className="label">Judul</label>

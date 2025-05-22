@@ -38,7 +38,8 @@ const NoteEdit = () => {
 
   return (
     <div className="container mt-5">
-      <h1 className="title has-text-warning has-text-centered">✏️ Edit Catatan</h1>
+      <h1 style={{ textAlign: "center", color: "#f39c12" }}>✏️ Edit Catatan</h1>
+
 
       <form onSubmit={handleSubmit}>
         <div className="field">
